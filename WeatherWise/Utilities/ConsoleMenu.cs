@@ -4,11 +4,16 @@ namespace WeatherWise.Utilities;
 
 public class ConsoleMenu
 {
+    public User AppUser { get; set; }
+
+    public ConsoleMenu()
+    {
+        AppUser = new User();
+    }
+
     public void DisplayMainMenu()
     {
         DisplayWelcomeMessage();
-
-        var user = new User();
         
         while (true)
         {
@@ -19,7 +24,7 @@ public class ConsoleMenu
             Console.WriteLine("4. Precipitation probability");
             Console.WriteLine("5. Wind info");
             
-            if (user.DefaultLocation == null) Console.WriteLine("6. Set default location");
+            if (AppUser.DefaultLocation == null) Console.WriteLine("6. Set default location");
             else Console.WriteLine("6. Change or unset default location");
             
             Console.WriteLine("7. Exit application");
