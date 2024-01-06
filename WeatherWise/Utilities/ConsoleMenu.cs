@@ -22,14 +22,13 @@ public class ConsoleMenu
             Console.WriteLine("Please choose an option:");
             Console.WriteLine("1. General info");
             Console.WriteLine("2. Temperature and humidity");
-            Console.WriteLine("3. Sunrise and sunset");
-            Console.WriteLine("4. Precipitation probability");
-            Console.WriteLine("5. Wind info");
+            Console.WriteLine("3. Precipitation probability");
+            Console.WriteLine("4. Wind info");
 
             if (AppUser.DefaultLocation == null) Console.WriteLine("6. Set default location");
-            else Console.WriteLine("6. Change or unset default location");
+            else Console.WriteLine("5. Change or unset default location");
 
-            Console.WriteLine("7. Exit application");
+            Console.WriteLine("6. Exit application");
             Console.WriteLine();
 
             Console.Write("Enter option: ");
@@ -45,18 +44,15 @@ public class ConsoleMenu
                     DisplayTemperatureAndHumidity();
                     break;
                 case "3":
-                    DisplaySunriseAndSunset();
-                    break;
-                case "4":
                     DisplayPrecipitationProbability();
                     break;
-                case "5":
+                case "4":
                     DisplayWindInfo();
                     break;
-                case "6":
+                case "5":
                     SetOrChangeDefaultLocation();
                     break;
-                case "7":
+                case "6":
                     return;
                 default:
                     Console.WriteLine("Invalid option, please try again.");
@@ -73,7 +69,7 @@ public class ConsoleMenu
             Console.WriteLine();
             return;
         }
-
+        
         Console.WriteLine("Displaying temperature and humidity.");
         Console.WriteLine();
     }
