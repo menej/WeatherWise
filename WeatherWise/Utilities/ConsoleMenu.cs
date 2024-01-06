@@ -68,6 +68,7 @@ public class ConsoleMenu
         var userCity = ChooseLocation();
         if (userCity == null)
         {
+            Console.WriteLine();
             return;
         }
 
