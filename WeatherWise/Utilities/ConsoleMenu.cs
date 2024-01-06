@@ -66,7 +66,7 @@ public class ConsoleMenu
     private void DisplayTemperatureAndHumidity()
     {
         var userCity = ChooseLocation();
-        if (userCity.Equals("back"))
+        if (userCity == null)
         {
             return;
         }
