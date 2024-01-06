@@ -1,4 +1,6 @@
-﻿using WeatherAnalyzer;
+﻿using FuzzySharp;
+using FuzzySharp.Extractor;
+using WeatherAnalyzer;
 
 namespace WeatherWise.Utilities;
 
@@ -95,25 +97,44 @@ public class ConsoleMenu
             {
                 return null;
             }
-            
+
             var matchedCity =
                 cityNames.FirstOrDefault(city => city.Equals(userInput, StringComparison.OrdinalIgnoreCase));
 
-            if (matchedCity == null)
+            if (matchedCity != null)
             {
-                Console.WriteLine("Please provide a city that is on the list.\n");
-                continue;
-            } 
+                userChoice = matchedCity;
+            }
+            // If there was no match, try to check for similarities
+            else
+            {
+                ExtractedResult<string> probableCity = Process.ExtractOne(userInput, cityNames);
+                
+                // Check if the city name is really similar to the users input
+                if (probableCity.Score < 80)
+                {
+                    Console.WriteLine("Please provide a city that is on the list.\n");
+                    continue;
+                }
 
-            userChoice = matchedCity;
-            Console.WriteLine($"You have selected: {userChoice}");
+                Console.WriteLine($"Did you mean: {probableCity.Value}? (Y/N)");
+                Console.Write("Enter option: ");
+                
+                var userDecision = Console.ReadLine();
+
+                if (string.Equals(userDecision, "y", StringComparison.OrdinalIgnoreCase))
+                {
+                    userChoice = probableCity.Value;
+                }
+            }
         }
-        
+
         if (userChoice == null)
         {
             throw new InvalidOperationException("User choice should never be null here.");
         }
-        
+
+        Console.WriteLine($"You have selected: {userChoice}");
         return userChoice;
     }
 
