@@ -26,7 +26,7 @@ public class ConsoleMenu
             Console.WriteLine("3. Precipitation probability");
             Console.WriteLine("4. Wind info");
 
-            if (AppUser.DefaultLocation == null) Console.WriteLine("6. Set default location");
+            if (AppUser.DefaultLocation == null) Console.WriteLine("5. Set default location");
             else Console.WriteLine("5. Change or unset default location");
 
             Console.WriteLine("6. Exit application");
