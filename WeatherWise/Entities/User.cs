@@ -1,4 +1,4 @@
-﻿namespace WeatherAnalyzer;
+﻿namespace WeatherWise.Entities;
 
 public class User
 {

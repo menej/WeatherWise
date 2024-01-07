@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WeatherAnalyzer;
+namespace WeatherWise.Models;
 
 public class HourlyData
 {
