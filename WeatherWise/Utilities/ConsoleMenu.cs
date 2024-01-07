@@ -1,6 +1,7 @@
 ﻿using FuzzySharp;
 using FuzzySharp.Extractor;
-using WeatherAnalyzer;
+using WeatherWise;
+using WeatherWise.Entities;
 
 namespace WeatherWise.Utilities;
 
@@ -76,7 +77,7 @@ public class ConsoleMenu
 
     private static string? ChooseLocation()
     {
-        var cities = CityCoordinates.coordinates;
+        var cities = CityCoordinates.Coordinates;
         var cityNames = cities.Keys;
 
         string? userChoice = null;

@@ -1,8 +1,8 @@
-﻿namespace WeatherAnalyzer;
+﻿namespace WeatherWise.Utilities;
 
 public class CityCoordinates
 {
-    public static readonly Dictionary<string, (double Latitude, double Longitude)> coordinates = new()
+    public static readonly Dictionary<string, (double Latitude, double Longitude)> Coordinates = new()
     {
         { "Ljubljana", (46.056946, 14.505752) },
         { "Kranj", (46.23887, 14.35561) },
