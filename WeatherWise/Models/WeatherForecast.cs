@@ -9,6 +9,9 @@ public class WeatherForecast
 
     [JsonPropertyName("longitude")]
     public double Longitude { get; set; }
+    
+    [JsonPropertyName("hourly_units")]
+    public HourlyUnits? HourlyUnits { get; set; }
 
     [JsonPropertyName("hourly")]
     public HourlyData? Hourly { get; set; }

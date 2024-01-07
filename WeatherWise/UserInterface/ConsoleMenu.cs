@@ -2,8 +2,10 @@
 using FuzzySharp.Extractor;
 using WeatherWise;
 using WeatherWise.Entities;
+using WeatherWise.Services;
+using WeatherWise.Utilities;
 
-namespace WeatherWise.Utilities;
+namespace WeatherWise.UserInterface;
 
 public class ConsoleMenu
 {
@@ -64,7 +66,10 @@ public class ConsoleMenu
 
     private void DisplayTemperatureAndHumidity()
     {
+        Console.WriteLine("Option chosen: Temperature and humidity");
         var userCity = ChooseLocation();
+
+        // userCity is only null if user chooses "back"
         if (userCity == null)
         {
             Console.WriteLine();
@@ -73,6 +78,39 @@ public class ConsoleMenu
         
         Console.WriteLine("Displaying temperature and humidity.");
         Console.WriteLine();
+
+        var city = CityCoordinates.Coordinates[userCity];
+        var weatherTask = WeatherService.GetDailyTemperatureAndHumidity(city.Item1, city.Item2);
+
+        // Block the main thread (other way of doing is to propagate async all up to Main)
+        var weatherResult = weatherTask.GetAwaiter().GetResult();
+
+        if (weatherResult?.Hourly == null ||
+            weatherResult.HourlyUnits == null)
+        {
+            Console.WriteLine("Sorry, something went wrong. Please try again or wait for a few minutes.");
+            return;
+        }
+
+        // Display information about daily temperature and humidity in chosen city
+        var sb = new System.Text.StringBuilder();
+
+        sb.Append("|  Time | Temperature | Apparent Temperature | Relative Humidity |\n");
+
+        for (int i = 0; i < 23; i++)
+        {
+            var time = i + ":00";
+            var temperature = weatherResult.Hourly.Temperature2M![i] + weatherResult.HourlyUnits.Temperature2MUnit;
+            var apparentTemperature = weatherResult.Hourly.ApparentTemperature![i] +
+                                      weatherResult.HourlyUnits.ApparentTemperatureUnit;
+            var relativeHumidity = weatherResult.Hourly.RelativeHumidity2M![i] +
+                                   weatherResult.HourlyUnits.RelativeHumidity2MUnit;
+
+            sb.Append($"| {time,5} | {temperature,11} | {apparentTemperature,20} | {relativeHumidity,17} |\n");
+        }
+
+
+        Console.WriteLine(sb.ToString());
     }
 
     private static string? ChooseLocation()
@@ -106,7 +144,7 @@ public class ConsoleMenu
             else
             {
                 ExtractedResult<string> probableCity = Process.ExtractOne(userInput, cityNames);
-                
+
                 // Check if the city name is really similar to the users input
                 if (probableCity.Score < 80)
                 {
@@ -116,7 +154,7 @@ public class ConsoleMenu
 
                 Console.WriteLine($"Did you mean: {probableCity.Value}? (Y/N)");
                 Console.Write("Enter option: ");
-                
+
                 var userDecision = Console.ReadLine();
 
                 if (string.Equals(userDecision, "y", StringComparison.OrdinalIgnoreCase))
