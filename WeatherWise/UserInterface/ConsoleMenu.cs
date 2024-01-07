@@ -76,8 +76,6 @@ public class ConsoleMenu
             return;
         }
         
-        Console.WriteLine("Displaying temperature and humidity.");
-        Console.WriteLine();
 
         var city = CityCoordinates.Coordinates[userCity];
         var weatherTask = WeatherService.GetDailyTemperatureAndHumidity(city.Item1, city.Item2);
@@ -111,6 +109,7 @@ public class ConsoleMenu
 
 
         Console.WriteLine(sb.ToString());
+        ConsoleHelper.WaitForKeyPress();
     }
 
     private static string? ChooseLocation()
